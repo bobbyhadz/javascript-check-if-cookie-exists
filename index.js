@@ -50,10 +50,8 @@ const cookieExistsInput = document.getElementById(
 );
 
 checkCookieBtn.addEventListener('click', () => {
-  const cookieValue = getCookie(cookieExistsInput.value);
-
-  if (cookieValue) {
-    console.log('✅ The cookie exists: ', cookieValue);
+  if (cookieExists(cookieExistsInput.value)) {
+    console.log('✅ The cookie exists.');
   } else {
     console.log('⛔️ The cookie does not exist');
   }
@@ -76,3 +74,33 @@ function getCookie(name) {
 
   return null;
 }
+
+function cookieExists(name) {
+  return document.cookie
+    .split(';')
+    .some(item => item.trim().startsWith(`${name}=`));
+}
+
+/**
+ * Code used to remove a specific cookie
+ */
+
+function removeCookie(name) {
+  document.cookie =
+    name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+const removeCookieBtn = document.getElementById(
+  'remove-cookie-btn',
+);
+const removeCookieInput = document.getElementById(
+  'cookie-to-remove',
+);
+
+removeCookieBtn.addEventListener('click', () => {
+  removeCookie(removeCookieInput.value);
+
+  console.log(`Cookie ${removeCookieInput.value} removed`);
+
+  removeCookieInput.value = '';
+});
